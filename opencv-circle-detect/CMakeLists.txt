@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8)
+project( helloworld )
+find_package( OpenCV REQUIRED )
+add_executable( helloworld src/edge.cpp )
+target_link_libraries( helloworld ${OpenCV_LIBS} )

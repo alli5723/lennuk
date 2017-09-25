@@ -1,0 +1,12 @@
+
+low H value: 0
+high H value: 50 (full range? decrease?)
+
+low S: 140~
+high S: 255
+
+low V: 140~
+high V: 255
+
+bright orange: high S,V values
+H value between -20(159), 20 (?)
