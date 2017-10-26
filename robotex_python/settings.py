@@ -1,8 +1,5 @@
-class Settings:
-    def __init__(self):
-        print("Settings Initialized")
-
-    def our_ball(self):
-        orangeLower = (0, 114, 139)
-        orangeUpper = (8, 255, 255)
-        return (orangeLower, orangeUpper)
+ORANGE_BOUNDARIES = ((0, 102, 150), (27, 255, 255))
+VIDEO_DEVICE = 0
+ROBOT_SERIAL = "/dev/ttyACM0"
+BAUDRATE = 19200
+BUFFER_RESET_BOUND = 25

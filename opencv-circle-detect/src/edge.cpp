@@ -26,7 +26,6 @@ int main( int argc, char** argv )
    int iLowV = 150;
    int iHighV = 255;
 
-   int blurSigma = 2;
 
    //Create trackbars in "Control" window
    cvCreateTrackbar("LowH", "Control", &iLowH, 179); //Hue (0 - 179)
@@ -39,7 +38,6 @@ int main( int argc, char** argv )
    cvCreateTrackbar("LowV", "Control", &iLowV, 255); //Value (0 - 255)
    cvCreateTrackbar("HighV", "Control", &iHighV, 255);
 
-   cvCreateTrackbar("BlurSigma", "Control", &blurSigma, 50);
 
    while (true)
    {
@@ -69,18 +67,17 @@ int main( int argc, char** argv )
       dilate( imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) ); 
       erode(imgThresholded, imgThresholded, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) );
       
-      GaussianBlur( imgThresholded, imgThresholded, Size(9, 9), blurSigma, blurSigma );
-      vector<Vec3f> circles;
+      /* vector<Vec3f> circles; */
 
-      HoughCircles( imgThresholded, circles, CV_HOUGH_GRADIENT, 2, imgThresholded.rows/8, 200, 100, 0, 0);
-      //pixel extrapolation method(?)
-      if (circles.size() > 0) {
-         Point center(cvRound(circles[0][0]), cvRound(circles[0][1]));
-         int radius = cvRound(circles[0][2]);
-			circle( imgOriginal, center, 3, Scalar(0,255,0), -1, 8, 0 );
-			// circle outline
-			circle( imgOriginal, center, radius, Scalar(0,0,255), 3, 8, 0 );
-      }
+      /* HoughCircles( imgThresholded, circles, CV_HOUGH_GRADIENT, 2, imgThresholded.rows/8, 200, 100, 0, 0); */
+      /* //pixel extrapolation method(?) */
+      /* if (circles.size() > 0) { */
+      /*    Point center(cvRound(circles[0][0]), cvRound(circles[0][1])); */
+      /*    int radius = cvRound(circles[0][2]); */
+			/* circle( imgOriginal, center, 3, Scalar(0,255,0), -1, 8, 0 ); */
+			/* // circle outline */
+			/* circle( imgOriginal, center, radius, Scalar(0,0,255), 3, 8, 0 ); */
+      /* } */
 
       imshow("Thresholded Image", imgThresholded); //show the thresholded image
       imshow("Original", imgOriginal); //show the original image

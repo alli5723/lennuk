@@ -1,12 +1,20 @@
+import serial
+from settings import *
 class CommunicationController:
     def __init__(self):
-        port = "COM4"
-        baud = 9600
         global board
-        # board = serial.Serial(port, baud, serial.EIGHTBITS, timeout=0)
+        board = serial.Serial(ROBOT_SERIAL, BAUDRATE, serial.EIGHTBITS, timeout=0)
+        self.count = 0
         print("Communication controller")
 
-    def sendCommand(self, left, right, back, pid):
-        # if board.isOpen:
-        #     board.write(command + '\n')
-        print(left, right, back, pid)
+    def sendCommand(self, right, back, left, pid):
+        self.count += 1
+        if self.count >= BUFFER_RESET_BOUND:
+            board.reset_output_buffer()
+            board.reset_input_buffer()
+        #format:
+        #sd:BACKWHEEL:RIGHTWHEEL:LEFTWHEEL:pid\n
+        command = ":".join(("sd", str(back), str(right), str(left), str(pid)))
+        if board.is_open:
+            board.write(command + '\n')
+        print(command)

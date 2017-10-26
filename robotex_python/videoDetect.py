@@ -27,7 +27,7 @@ pts = deque(maxlen=args["buffer"])
 # if a video path was not supplied, grab the reference
 # to the webcam
 if not args.get("video", False):
-    camera = cv2.VideoCapture(0)
+    camera = cv2.VideoCapture(1)
 
 # otherwise, grab a reference to the video file
 else:
@@ -43,9 +43,6 @@ while True:
     if args.get("video") and not grabbed:
         break
 
-    # resize the frame, blur it, and convert it to the HSV
-    # color space
-    frame = imutils.resize(frame, width=600)
     # blurred = cv2.GaussianBlur(frame, (11, 11), 0)
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 

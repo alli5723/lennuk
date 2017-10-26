@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 import imutils
 import math
-from settings import Settings
+from settings import *
 from communication import CommunicationController
 
 class CameraController:
@@ -10,6 +10,7 @@ class CameraController:
 
     def __init__(self):
         self.communication = CommunicationController()
+        self.count = 0
         print("Camera Started")
 
     def evaluate(self, ballContour, frame):
@@ -39,29 +40,28 @@ class CameraController:
             ball_radius = ball_radius_calculated
             # print(ball_radius)
             if (centre_ball[0] > 330) and (ball_radius < 18):
-                self.communication.sendCommand(75,75,75,1)
+                self.communication.sendCommand(15,15,15,1)
 
             if (centre_ball[0] > 330) and (ball_radius >= 18):
-                self.communication.sendCommand(75, 75, 75, 1)
+                self.communication.sendCommand(15, 15, 15, 1)
 
             # turn left
             if (centre_ball[0] < 230) and (ball_radius < 18):
-                self.communication.sendCommand(-75, -75, -75, 1)
+                self.communication.sendCommand(-15, -15, -15, 1)
 
             if (centre_ball[0] < 230) and (ball_radius >= 18):
-                self.communication.sendCommand(-75, -75, -75, 1)
+                self.communication.sendCommand(-15, -15, -15, 1)
 
             # go forward
             if (centre_ball[0] > 230) and (centre_ball[0] < 330) and ball_radius < 18:
-                self.communication.sendCommand(-350, 0, 350, 1)
+                self.communication.sendCommand(-30, 0, 30, 1)
 
             if (centre_ball[0] > 230) and (centre_ball[0] < 330) and ball_radius > 18:
-                self.communication.sendCommand(-250, 0, 250, 1)
+                self.communication.sendCommand(-20, 0, 20, 1)
 
 
     def start(self):
-        cap = cv2.VideoCapture(0)
-        values = Settings()
+        cap = cv2.VideoCapture(VIDEO_DEVICE)
 
         while(cap.isOpened()):
             ret, frame = cap.read()
@@ -70,7 +70,7 @@ class CameraController:
                 frame = imutils.resize(frame, width=600)
                 hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-                ballBoundaries = [ values.our_ball() ]
+                ballBoundaries = [ ORANGE_BOUNDARIES ]
 
                 # loop over the boundaries
                 for (lower, upper) in ballBoundaries:
@@ -85,7 +85,7 @@ class CameraController:
 
                     #Ball not found yet
                     if len(ballContour) == 0:
-                        self.communication.sendCommand(50, 50, 50, 1)
+                        self.communication.sendCommand(10, 10, 10, 1)
 
                     self.evaluate(ballContour, frame)
 

@@ -1,0 +1,5 @@
+1.Add a time buffer between losing sight of the ball and turning, trying to find another ball
+2.Support for multiple balls (path planning?)
+3.Use omnidirectional movement (angle itself to shoot towards the basket as it moves)
+4.Actual testing on the ground
+5.referee switch?
