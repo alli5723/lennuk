@@ -13,8 +13,7 @@ class RobotController:
         print("ball obtained")
 
     def hasBall(self):
-
-        print("Yes we have the ball")
+        return False
 
     def searchBall(self):
         print("Searching for ball")

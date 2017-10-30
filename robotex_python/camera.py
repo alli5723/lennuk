@@ -64,6 +64,7 @@ class CameraController:
         cap = cv2.VideoCapture(VIDEO_DEVICE)
 
         while(cap.isOpened()):
+            self.communication.listenToRefree()
             ret, frame = cap.read()
             if ret:
                 frame = cv2.flip(frame,180)

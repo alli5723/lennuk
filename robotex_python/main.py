@@ -1,12 +1,14 @@
 from robot import RobotController
+from communication import CommunicationController
 
-robot = RobotController()
 try:
+    robot = RobotController()
     while True:
         #run app
         if(not robot.hasBall()):
-            print("no ball yet")
+            noball = True
         else:
             robot.getBall(robot.ball())
 except Exception as ex:
+    robot = RobotController()
     print(ex)
