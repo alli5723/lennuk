@@ -6,13 +6,14 @@ from common import *
 class RobotController:
 
     def __init__(self):
-        camera = CameraController()
-        camera.start()
+        # camera = CameraController()
+        # camera.start()
         print("robot initialized")
 
     def start(self):
-        while True:
-            if ROBOT_STATE.SEARCH_BASKET :
+        print("robot start")
+        # while True:
+        #     if ROBOT_STATE.SEARCH_BASKET :
 
     def hasBall(self):
         print("Yes we have the ball")

@@ -1,5 +1,5 @@
 class ROBOT_STATE:
-    STOP, SEARCH_BALL, THROW, SEARCH_BASKET = (True, False, False, False)
+    STOP, SEARCH_BALL, THROW, SEARCH_BASKET = (False, False, False, False)
 
 class ROBOT_WITH_BALL:
     SEEN_BALL, HAS_BALL, THROW_BALL, FOLLOW_BALL = (False, False, False, False)

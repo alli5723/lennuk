@@ -17,7 +17,7 @@ class CommunicationController:
         command = ":".join(("sd", str(right), str(left), str(back), str(pid)))
         if board.is_open:
             board.write(command + '\n')
-        print(command)
+        # print(command)
 
     def throwBall(self, value):
         if board.is_open:

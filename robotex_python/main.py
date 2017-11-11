@@ -1,11 +1,11 @@
 from camera import CameraController
-from refree import RefreeController
-from robot import RobotController
+# from refree import RefreeController
+# from robot import RobotController
 
-refree = RefreeController()
 camera = CameraController()
-robot = RobotController()
+# refree = RefreeController()
+# robot = RobotController()
 
-refree.whatsUp()
 camera.start()
-robot.start()
+# refree.whatsUp()
+# robot.start()
