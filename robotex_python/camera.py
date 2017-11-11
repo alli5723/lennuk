@@ -2,12 +2,12 @@ import numpy as np
 import cv2
 import imutils
 import math
+import time
 from settings import *
+from common import *
 from communication import CommunicationController
 
 class CameraController:
-    global communication
-
     def __init__(self):
         self.communication = CommunicationController()
         self.count = 0
@@ -15,7 +15,9 @@ class CameraController:
 
     def evaluate(self, ballContour, frame):
         areaArray = []
-        if len(ballContour) > 0 :
+        if len(ballContour) > 0 and not ROBOT_STATE.STOP :
+            ROBOT_WITH_BALL.SEEN_BALL = True
+            ROBOT_WITH_BALL.FOLLOW_BALL = True
             for i, c in enumerate(ballContour):
                 area = cv2.contourArea(c)
                 areaArray.append(area)
@@ -54,7 +56,14 @@ class CameraController:
 
             # go forward
             if (centre_ball[0] > 230) and (centre_ball[0] < 330) and ball_radius < 18:
+                if(ball_radius < 3):
+                    time.sleep(0.05)
+                    ROBOT_WITH_BALL.HAS_BALL = True
+                    ROBOT_STATE.SEARCH_BASKET = True
+                #     self.communication.throwBall(200)
+                print("Ball radius is " + str(ball_radius))
                 self.communication.sendCommand(-30, 0, 30, 1)
+            # self.communication.throwBall(120)
 
             if (centre_ball[0] > 230) and (centre_ball[0] < 330) and ball_radius > 18:
                 self.communication.sendCommand(-20, 0, 20, 1)
@@ -64,14 +73,13 @@ class CameraController:
         cap = cv2.VideoCapture(VIDEO_DEVICE)
 
         while(cap.isOpened()):
-            self.communication.listenToRefree()
             ret, frame = cap.read()
             if ret:
                 frame = cv2.flip(frame,180)
                 frame = imutils.resize(frame, width=600)
                 hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-                ballBoundaries = [ ORANGE_BOUNDARIES ]
+                ballBoundaries = [ GREEN_BOUNDARIES ]
 
                 # loop over the boundaries
                 for (lower, upper) in ballBoundaries:
@@ -79,14 +87,16 @@ class CameraController:
                     mask = cv2.inRange(hsv, lower, upper)
                     mask = cv2.erode(mask, None, iterations=2)
                     mask = cv2.dilate(mask, None, iterations=2)
-                    cv2.imshow("mask", mask)
-                    cv2.imshow("images", frame)
 
                     ballContour, hierarchy = cv2.findContours(mask.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)[-2:]
 
                     #Ball not found yet
-                    if len(ballContour) == 0:
+                    if len(ballContour) == 0 and not ROBOT_STATE.STOP:
+                        ROBOT_WITH_BALL.SEEN_BALL = False
                         self.communication.sendCommand(10, 10, 10, 1)
+                        # self.communication.throwBall(0)
+                    # else:
+                        # print("Robot is potentially paused")
 
                     self.evaluate(ballContour, frame)
 

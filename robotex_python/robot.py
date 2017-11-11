@@ -1,5 +1,6 @@
 import serial
 from camera import CameraController
+from common import *
 
 
 class RobotController:
@@ -9,11 +10,12 @@ class RobotController:
         camera.start()
         print("robot initialized")
 
-    def getBall(self):
-        print("ball obtained")
+    def start(self):
+        while True:
+            if ROBOT_STATE.SEARCH_BASKET :
 
     def hasBall(self):
-        return False
+        print("Yes we have the ball")
 
     def searchBall(self):
         print("Searching for ball")
