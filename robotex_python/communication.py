@@ -7,14 +7,15 @@ class CommunicationController:
         self.count = 0
         print("Communication controller")
 
-    def sendCommand(self, right, back, left, pid):
+    def sendCommand(self, right, back, left):
         self.count += 1
         if self.count >= BUFFER_RESET_BOUND:
             board.reset_output_buffer()
             board.reset_input_buffer()
+            self.count = 0
         #format:
-        #sd:BACKWHEEL:RIGHTWHEEL:LEFTWHEEL:pid\n
-        command = ":".join(("sd", str(right), str(left), str(back), str(pid)))
+        #sd:BACKWHEEL:RIGHTWHEEL:LEFTWHEEL\n
+        command = ":".join(("sd", str(right), str(left), str(back) ))
         if board.is_open:
             board.write(command + '\n')
         # print(command)
